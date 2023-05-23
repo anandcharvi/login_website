@@ -22,5 +22,3 @@ class books_record(db.Model):
     return_date = issue_date + 30
     
     
-
-

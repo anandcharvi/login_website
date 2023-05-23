@@ -1,4 +1,4 @@
-from . models import books, User
+from .models import books, User
 from . import db
 
 def enter_books():
@@ -21,8 +21,8 @@ def enter_books():
 
     db.session.commit()
     
-def student():
-    student_info = (
+def user_info():
+    user_info = (
         (9234, "Emily", "Emily@gmail", "Em01"),
         (9235, "Gabriel", "Gabriel@gmail", "Ga01"),
         (9236, "Cammillie","Cammillie@gmail", "Ca01"),
@@ -34,7 +34,7 @@ def student():
         (9232, "Noddy", "Noddy@gmail","No01"),
         (9233, "Oswald", "Oswald@gmail","Os01"),
     )
-    for i in student_info:
+    for i in user_info:
         new_user = User(id=i[0], name=i[1], email=i[2], password = i[3])
         db.session.add(new_user)
 
@@ -42,3 +42,4 @@ def student():
 
 # if __name__ == '__main__':
 #     enter_books()
+#     user_info()

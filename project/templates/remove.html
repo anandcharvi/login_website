@@ -16,11 +16,11 @@
     <div class="content">
         {% for book in books_all %}
             <div class="book">
-                <p><b>#{{ book.book_id }} {{ book.book_name }}
+                <p><b>#{{ book.book_id }} {{ book.book_name }} {{ book.inventory }}
                 </a></p>
         
                 </b>
-                <a href="{{ url_for('auth.issue', book_id=book.book_id) }}">Issue</a>
+                <a href="{{ url_for('auth.remove', book_id=book.book_id) }}">Remove</a>
                 <hr>
             </div>
         {% endfor %}

@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="box">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notification is-success">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+
+</div>
 <h1 class="title">
   Welcome, Member!
 </h1>
+        <form method="POST" action="/add_book">
+            <button name="response" class="button is-block is-info" value = "add">Add a book</button>
+            <br>
+            <button name="response" class="button is-block is-info" value = "remove">Remove a book</button>
+            <br>
+            <button name="response" class="button is-block is-info" value = "update">Update Inventory</button>
+        </form>
 {% endblock %}

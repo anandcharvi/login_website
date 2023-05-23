@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
-# from . import db
+# from db import db
 from .models import books
-
 
 main = Blueprint('main', __name__)
 
@@ -18,8 +17,8 @@ def profile():
 
 @main.route('/profile', methods=['POST'])
 def profile_post():
-    book = books.query.all()
-    return render_template('book_menu.html', books=book)
+    book_all = books.query.all()
+    return render_template('book_menu.html', books_all=book_all)
     
 
 @main.route('/staff_profile')
@@ -27,4 +26,5 @@ def staff_profile():
     return render_template('staff_profile.html')
 
 # if __name__ == '__main__':
-#     app.run(debug=True)
+#     enter_data()
+#     enter_books()
