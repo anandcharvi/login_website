@@ -18,7 +18,7 @@ class books_record(db.Model):
     user_id = db.Column(db.Integer)
     book_id = db.Column(db.Integer)
     status = db.Column(db.String(10))
-    issue_date = db.Column(db.DateTime(timezone=True), default=func.now())
-    return_date = issue_date + 30
+    issue_date = db.Column(db.Date)
+    return_date = db.Column(db.Date)
     
     

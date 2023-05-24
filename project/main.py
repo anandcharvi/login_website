@@ -22,6 +22,7 @@ def profile_post():
     
 
 @main.route('/staff_profile')
+@login_required
 def staff_profile():
     return render_template('staff_profile.html')
 

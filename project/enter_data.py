@@ -21,7 +21,7 @@ def enter_books():
 
     db.session.commit()
     
-def user_info():
+def enter_user():
     user_info = (
         (9234, "Emily", "Emily@gmail", "Em01"),
         (9235, "Gabriel", "Gabriel@gmail", "Ga01"),
