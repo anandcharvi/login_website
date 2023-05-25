@@ -1,14 +1,23 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
-# from db import db
-from .models import books, books_record
+from . import db
+from .models import books, books_record, User
+from werkzeug.security import generate_password_hash
 
 main = Blueprint('main', __name__)
 
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    user = User.query.filter_by(email="library_staff@library.in").first()
+    if user:
+        return render_template('index.html')
+    else:
+        staff_password = "staff123#"
+        new_user = User(email="library_staff@library.in", name="staff", password=generate_password_hash(staff_password, method='sha256'))
+        db.session.add(new_user)
+        db.session.commit()
+        return render_template('index.html')
 
 @main.route('/<int:user_id>/profile')
 # @main.route('/profile')
