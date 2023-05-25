@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="box">
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -12,10 +13,29 @@
 
 </div>
 <h1 class="title">
-  Welcome, {{name}}!
+  Welcome! {{name}}
 </h1>
+<br>
+<div class="content">
+  {% if book_list|length > 0 %}
+    <p> You need to return following book(s):
+    {% for book in book_list %}
+          <div class="book">
+              <p><b>{{ book }}    <button><a href="{{ url_for('auth.return_book', book_name=book) }}">Return</a></button>
+                 </p>
+                  </b>
+          </div>
+      {% endfor %}
+  {% endif %}
+</div>
+<hr>
+{% if book_list|length < 3 %}
+  <form method="POST" action="/profile">
+    <button class="button is-block is-info is-large is-fullwidth">Book Menu</button>
+  </form>
+{% endif %}
 
-<form method="POST" action="/profile">
-  <button class="button is-block is-info is-large is-fullwidth">Book Menu</button>
-</form>
+{% if book_list|length == 3 %}
+  <p> You can issue maximum of three books. </p>
+{% endif %}
 {% endblock %}

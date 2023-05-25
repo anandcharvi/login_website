@@ -5,6 +5,7 @@ from . import db
 from flask_login import login_user,login_required, current_user, logout_user
 from .enter_data import *
 import datetime
+from sqlalchemy import func, and_
 
 auth = Blueprint('auth', __name__)
 
@@ -31,7 +32,10 @@ def login_post():
     else:
         flash('Logged in successfully!', category='success')
         login_user(user, remember=remember)
-        return redirect(url_for('main.profile'))
+        # return redirect(url_for('main.profile'))
+        return redirect(url_for('main.profile', user_id = user.id))
+
+    
 
 @auth.route('/staff_login')
 def staff_login():
@@ -92,19 +96,17 @@ def add_book():
     elif btn == "update_user":
         user_all = User.query.all()
         return render_template('update_user.html', user_all=user_all)
-    elif btn == "bulk":
-        return redirect(url_for('auth.add_bulk_data'))
+    elif btn == "bulk_books":
+        count = enter_books()
+        flash(count + " books added to database")
+        return redirect(url_for('main.staff_profile'))
+    elif btn == "bulk_users":
+        count = enter_user()
+        flash(count + " users added to database")
+        return redirect(url_for('main.staff_profile'))
     elif btn == "records":
         records = books_record.query.all()
         return render_template('records.html', records=records)
-    
-    
-@auth.route('/add_bulk_data')
-def add_bulk_data():
-    enter_books()
-    enter_user()
-    flash("data added successfully")
-    return redirect(url_for('main.staff_profile'))
     
 
 @auth.route('/add_book_post', methods=['POST'])
@@ -133,14 +135,33 @@ def add_book_post():
 # @login_required
 def issue(book_id):
     book = books.query.get(book_id)
-    ref_no = str(book_id) + str(current_user.id)
+    book.Inventory=book.Inventory-1
+    # print(book.Inventory)
+    max_ref_no = db.session.query(func.max(books_record.ref_id)).scalar()
+    ref_no = max_ref_no + 1
     new_record = books_record(ref_id=ref_no, user_id = current_user.id, book_id = book_id, status = "Issued", issue_date=datetime.date.today(), return_date = None)
 
     # add the new user to the database
     db.session.add(new_record)
     db.session.commit()
     flash(book.book_name + ' issued successfully. You need to return this book within 30 days....\nYour reference number is ' + str(ref_no), category='success')
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('main.profile', user_id = current_user.id,))
+
+@auth.route('/<string:book_name>/return_book')
+# @login_required
+def return_book(book_name):
+    book = books.query.filter_by(book_name=book_name).first()
+    book.Inventory=book.Inventory+1
+    print(book.Inventory)
+    book_ref_no = books_record.query.filter_by(book_id=book.book_id, user_id=current_user.id, status = "Issued").first()
+    ref_no = book_ref_no.ref_id
+    # ref_no = str(book.book_id) + str(current_user.id)
+    record = books_record.query.get(ref_no)
+    record.status = "Returned"
+    record.return_date = datetime.date.today()
+    db.session.commit()
+    flash(book_name + ' returned successfully. ', category='success')
+    return redirect(url_for('main.profile',user_id = current_user.id))
 
 @auth.route('/<int:book_id>/remove')
 # @login_required

@@ -15,14 +15,16 @@
     <h1 class="title">{% block title %} The available books in the library are: {% endblock %}</h1>
     <div class="content">
         {% for book in books_all %}
-            <div class="book">
-                <p><b>#{{ book.book_id }} {{ book.book_name }}
-                </a></p>
-        
-                </b>
-                <a href="{{ url_for('auth.issue', book_id=book.book_id) }}">Issue</a>
-                <hr>
-            </div>
+            {% if book.Inventory > 0 %}
+    
+                <div class="book">
+                    <p><b>#{{ book.book_id }} {{ book.book_name }}
+                       </p>
+                        </b>
+                    <a href="{{ url_for('auth.issue', book_id=book.book_id) }}">Issue</a>
+                    <hr>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
