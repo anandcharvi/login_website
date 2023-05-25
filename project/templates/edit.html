@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="width: 100%">
+        {% block title %} <b>Update Details:</b>
+        {% endblock %}
+    </h1>
+    <br>
+    <hr>
+    <form method="post" >
+
+        <p>
+            <label for="book_id">Book ID:  {{book.book_id}}</label>
+        </p>
+            <br>
+        <p>
+            <label for="book_name">Book Name:</label>
+            <input type="text" name= "book_name" value={{ book.book_name }}>
+            </input>
+        </p>
+            <br>
+        <p>
+            <label for="Inventory">Inventory:</label>
+            <input type="number" name = "Inventory" value={{ book.Inventory }}>
+                   
+            </input>
+        </p>
+        <br>
+        <hr>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}

@@ -1,5 +1,6 @@
 from .models import books, User
 from . import db
+from werkzeug.security import generate_password_hash
 
 def enter_books():
     book_info = (
@@ -14,14 +15,17 @@ def enter_books():
             (1232, "Fault In our Stars", 7),
             (1233, "Anne Of Green Gables", 6),
         )
-
+    count=0
     for i in book_info:
+        count = count + 1
         new_book = books(book_id=i[0], book_name=i[1], Inventory=i[2])
         db.session.add(new_book)
 
     db.session.commit()
+    return str(count)
+
     
-def user_info():
+def enter_user():
     user_info = (
         (9234, "Emily", "Emily@gmail", "Em01"),
         (9235, "Gabriel", "Gabriel@gmail", "Ga01"),
@@ -34,11 +38,15 @@ def user_info():
         (9232, "Noddy", "Noddy@gmail","No01"),
         (9233, "Oswald", "Oswald@gmail","Os01"),
     )
+    count = 0
     for i in user_info:
-        new_user = User(id=i[0], name=i[1], email=i[2], password = i[3])
+        count = count +1
+        p=generate_password_hash(i[3], method='sha256')
+        new_user = User(id=i[0], name=i[1], email=i[2], password = p)
         db.session.add(new_user)
 
     db.session.commit()
+    return str(count)
 
 # if __name__ == '__main__':
 #     enter_books()

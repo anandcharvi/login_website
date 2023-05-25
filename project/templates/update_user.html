@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-success">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+  
+  </div>
+  <br>
+    <h1 class="title">{% block title %} The registered users are: {% endblock %}</h1>
+    <br>
+    <h1><button style="background-color:White"><a href="{{ url_for('main.staff_profile',) }}">      ..DONE..      </a></button></h1>
+    <br>
+    <div class="content">
+        
+        <br>
+        {% for user in user_all %}
+            <div class="book">
+                <p><b>#{{ user.id }} {{ user.name }} &ensp; </b> <button onclick="return confirm('Are you sure you want to delete this user from the database?')"><a href="{{ url_for('auth.remove_user', id=user.id) }}">Delete User</a></button>
+                </p>
+               
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

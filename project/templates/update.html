@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="box">
+<div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         <div class="notification is-success">
@@ -12,15 +12,22 @@
   
   </div>
   <br>
+  <a href="{{ url_for('main.staff_profile',) }}">DONE</a>
+  <br>
+  <hr>
     <h1 class="title">{% block title %} The available books in the library are: {% endblock %}</h1>
+    
+    <br>
+    <br>
     <div class="content">
+        
+        <br>
         {% for book in books_all %}
             <div class="book">
-                <p><b>#{{ book.book_id }} {{ book.book_name }} {{ book.inventory }}
-                </a></p>
-        
-                </b>
-                <a href="{{ url_for('auth.remove', book_id=book.book_id) }}">Remove</a>
+                <p><b>#{{ book.book_id }} {{ book.book_name }} </b>
+                    <br>
+                    No. of books:  {{ book.Inventory }}  <a href="{{ url_for('auth.update', book_id=book.book_id) }}">Update</a>
+                </p>
                 <hr>
             </div>
         {% endfor %}

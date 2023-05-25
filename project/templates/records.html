@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="box">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-success">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+  
+  </div>
+  <br>
+    <h2 class="title">{% block title %} The details of issued/returned books are: {% endblock %}</h2>
+    <div class="content">
+            <br>
+        {% for record in records %}
+            <div>
+                <p><b> Reference Number:{{ record.ref_id }} <b> <br>
+                    User Id:   {{ record.user_id }}              Book ID:   {{ record.book_id }}   <br>
+                    Status:  {{ record.status }}  on  {{ record.issue_date }}  <br> Return Date:   {{ record.return_date }}
+                </a></p>
+                
+            </div> 
+        {% endfor %}
+                <hr>
+                    <h4> <a href="{{ url_for('main.staff_profile') }}">  ..DONE..  </a> </h4>
+                <hr>
+    </div>
+{% endblock %}
