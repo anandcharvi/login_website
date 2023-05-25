@@ -138,7 +138,10 @@ def issue(book_id):
     book.Inventory=book.Inventory-1
     # print(book.Inventory)
     max_ref_no = db.session.query(func.max(books_record.ref_id)).scalar()
-    ref_no = max_ref_no + 1
+    if max_ref_no is None:
+        ref_no = 6567765
+    else:
+        ref_no = max_ref_no + 1
     new_record = books_record(ref_id=ref_no, user_id = current_user.id, book_id = book_id, status = "Issued", issue_date=datetime.date.today(), return_date = None)
 
     # add the new user to the database
@@ -155,7 +158,7 @@ def return_book(book_name):
     print(book.Inventory)
     book_ref_no = books_record.query.filter_by(book_id=book.book_id, user_id=current_user.id, status = "Issued").first()
     ref_no = book_ref_no.ref_id
-    # ref_no = str(book.book_id) + str(current_user.id)
+    
     record = books_record.query.get(ref_no)
     record.status = "Returned"
     record.return_date = datetime.date.today()
@@ -171,7 +174,7 @@ def remove(book_id):
     db.session.delete(book)
     db.session.commit()
     books_all = books.query.all()
-    flash(book_name + 'removed successfully', category='success')
+    flash(book_name + ' removed successfully', category='success')
     return render_template('update_book.html', books_all=books_all)
     # return redirect(url_for('main.staff_profile'))
 
@@ -179,10 +182,10 @@ def remove(book_id):
 # @login_required
 def remove_user(id):
     user = User.query.get_or_404(id)
-    name = User.name
+    name = user.name
     db.session.delete(user)
     db.session.commit()
-    user_all = books.query.all()
+    user_all = User.query.all()
     flash(name + 'removed successfully', category='success')
     return render_template('update_user.html', user_all=user_all)
 
