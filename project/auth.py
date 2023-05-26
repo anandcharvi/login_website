@@ -97,12 +97,18 @@ def add_book():
         user_all = User.query.all()
         return render_template('update_user.html', user_all=user_all)
     elif btn == "bulk_books":
-        count = enter_books()
-        flash(count + " books added to database")
+        try:
+            count = enter_books()
+            flash(count + " books added to database")
+        except:
+            flash("Please update the file")
         return redirect(url_for('main.staff_profile'))
     elif btn == "bulk_users":
-        count = enter_user()
-        flash(count + " users added to database")
+        try:
+            count = enter_user()
+            flash(count + " users added to database")
+        except:
+            flash("Please update the file")
         return redirect(url_for('main.staff_profile'))
     elif btn == "records":
         records = books_record.query.all()
