@@ -1,4 +1,4 @@
-# login_website
+# library_website
 
 1. pip install -r project/requirements.txt 
 2. export FLASK_APP=project
