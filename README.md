@@ -4,10 +4,8 @@
 2. export FLASK_APP=project
 3. export FLASK_DEBUG=1
 4. flask run
-6. click Staff Login and enter the password (staff123#)
-7. click on the button: Books - bulk entry
-   click on the button: User - bulk entry (optional)
-8. Logout
-9. Sign Up (As User)
-10. Login with credentials
+5. Sign Up (As User)
+6. Login with credentials (As User)
+7. For Staff Login, Password is "staff123#"
+8. Login as Staff 
 
