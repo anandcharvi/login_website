@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for
 from flask_login import login_required, current_user
 from . import db
 from .models import books, books_record, User
 from werkzeug.security import generate_password_hash
+from .enter_data import *
 
 main = Blueprint('main', __name__)
 
@@ -13,6 +14,8 @@ def index():
     if user:
         return render_template('index.html')
     else:
+        a = enter_books()
+        b = enter_user()
         staff_password = "staff123#"
         new_user = User(email="library_staff@library.in", name="staff", password=generate_password_hash(staff_password, method='sha256'))
         db.session.add(new_user)
